@@ -12,7 +12,7 @@ import { defineConfig, devices } from '@playwright/test';
  */
 const config = defineConfig({
   testDir: './tests',
-  /* Run tests in files in parallel */
+  testMatch: /tests\/.*\/*.spec.js/,
   fullyParallel: false,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
   forbidOnly: !!process.env.CI,
@@ -25,11 +25,11 @@ const config = defineConfig({
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
-    headless: true,
-    // baseURL: 'https://qauto.forstudy.space/',
-    // httpCredentials: {
-    //   username: 'guest',
-    //   password: 'welcome2qauto'}
+    headless: false,
+    baseURL: 'https://qauto.forstudy.space/',
+    httpCredentials: {
+      username: 'guest',
+      password: 'welcome2qauto'},
     trace: 'on',
   },
 
