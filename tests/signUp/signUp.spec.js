@@ -44,6 +44,7 @@ test.describe("Positive flow", ()=>{
         await inputPassword.fill('12345qwerrtyY!')
         await inputRepeatPassword.fill('12345qwerrtyY!')
         await submitBtn.click()
+        await expect(page, "User should be redirected to garage page").toHaveURL('/panel/garage')
     })
     test.afterEach(async ({page})=>{
         const settingsBtn = page.getByRole('link', { name: 'Settings' })
@@ -67,163 +68,210 @@ test.describe("Check validation for fields", ()=>{
         const inputName = popup.locator('#signupName')
         const submitBtn = popup.locator('button', {hasText: 'Register'})
 
-        // Negative: check required Name
-        await inputName.click()
-        await inputName.blur()
-        const errorMessageRequiredName = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageRequiredName).toContain("Name required")
-        await expect 
+        await test.step('Negative: check required Name', async () => {
+            await inputName.focus()
+            await inputName.blur()
+            const errorMessageRequiredName = popup.locator(".invalid-feedback")
+            await expect(errorMessageRequiredName).toHaveText("Name required")
+            await expect(inputName).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
+        
 
-        // Negative: check Min length
-        await inputName.fill('I')
-        await inputName.blur()
-        const errorMessageMinLengthName = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageMinLengthName).toContain("Name has to be from 2 to 20 characters long")
+        await test.step('Negative: check Min length', async () => { 
+            await inputName.fill('I')
+            await inputName.blur()
+            const errorMessageMinLengthName = popup.locator(".invalid-feedback")
+            await expect(errorMessageMinLengthName).toHaveText("Name has to be from 2 to 20 characters long")
+            await expect(inputName).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
 
-        // Negative: check Max Length
-        await inputName.fill('IvannaDubenskaAqaEngineer')
-        await inputName.blur()
-        const errorMessageMaxLengthName = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageMaxLengthName).toContain("Name has to be from 2 to 20 characters long")
+        await test.step('Negative: check Max Length', async () => { 
+            await inputName.fill('IvannaDubenskaAqaEngineer')
+            await inputName.blur()
+            const errorMessageMaxLengthName = popup.locator(".invalid-feedback")
+            await expect(errorMessageMaxLengthName).toHaveText("Name has to be from 2 to 20 characters long")
+            await expect(inputName).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
 
-        // Negative: check Spaces
-        await inputName.fill('Ivanna D')
-        await inputName.blur()
-        const errorMessageSpacesName = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageSpacesName).toContain("Name is invalid")
+        await test.step('Negative: check Spaces', async () => {  
+            await inputName.fill('Ivanna D')
+            await inputName.blur()
+            const errorMessageSpacesName = popup.locator(".invalid-feedback")
+            await expect(errorMessageSpacesName).toHaveText("Name is invalid")
+            await expect(inputName).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
 
-        // Negative: check Latin letters
-        await inputName.fill('Іванна')
-        await inputName.blur()
-        const errorMessageLatinLettersName = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageLatinLettersName).toContain("Name is invalid")
+        await test.step('Negative: check Latin letters', async () => {
+            await inputName.fill('Іванна')
+            await inputName.blur()
+            const errorMessageLatinLettersName = popup.locator(".invalid-feedback")
+            await expect(errorMessageLatinLettersName).toHaveText("Name is invalid")
+            await expect(inputName).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
 
-        // Negative: check Special Symbols
-        await inputName.fill('!@#$%^&*()_')
-        await inputName.blur()
-        const errorMessageSpecialSymbolsName = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageSpecialSymbolsName).toContain("Name is invalid")
+        await test.step('Negative: check Special Symbols', async () => {
+            await inputName.fill('!@#$%^&*()_')
+            await inputName.blur()
+            const errorMessageSpecialSymbolsName = popup.locator(".invalid-feedback")
+            await expect(errorMessageSpecialSymbolsName).toHaveText("Name is invalid")
+            await expect(inputName).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
 
-        // Positive: check trim BUG HERE
-        // await inputName.fill(' Ivanna ', 'For this input should be implemented trim')
+        // await test.step('Positive: check trim', async () => {
+        //     await inputName.fill(' Ivanna ', 'For this input should be implemented trim');
+        // })
     })
 
     test ('Sign Up with INVALID data for Last Name input', async ({page})=>{
         const popup = page.locator('app-signup-modal')
         const inputLastName = popup.locator('#signupLastName')
 
-        // Negative: check required Last Name
-        await inputLastName.click()
-        await inputLastName.blur()
-        const errorMessageRequiredinputLastName = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageRequiredinputLastName).toContain("Last name required")
+        await test.step('Negative: check required Last Name', async () => {
+            await inputLastName.focus()
+            await inputLastName.blur()
+            const errorMessageRequiredinputLastName = popup.locator(".invalid-feedback")
+            await expect(errorMessageRequiredinputLastName).toHaveText("Last name required")
+            await expect(inputLastName).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
 
-        // Negative: check Min length Last Name
-        await inputLastName.fill('D')
-        await inputLastName.blur()
-        const errorMessageMinLengthInputLastName = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageMinLengthInputLastName).toContain("Last name has to be from 2 to 20 characters long")
+        await test.step('Negative: check Min length Last Name', async () => { 
+            await inputLastName.fill('D')
+            await inputLastName.blur()
+            const errorMessageMinLengthInputLastName = popup.locator(".invalid-feedback")
+            await expect(errorMessageMinLengthInputLastName).toHaveText("Last name has to be from 2 to 20 characters long")
+            await expect(inputLastName).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
 
-        // Negative: check Max Length Last Name
-        await inputLastName.fill('IvannaDubenskaAqaEngineer')
-        await inputLastName.blur()
-        const errorMessageMaxLengthInputLastName = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageMaxLengthInputLastName).toContain("Last name has to be from 2 to 20 characters long")
+        await test.step(' Negative: check Max Length Last Name', async () => {
+            await inputLastName.fill('IvannaDubenskaAqaEngineer')
+            await inputLastName.blur()
+            const errorMessageMaxLengthInputLastName = popup.locator(".invalid-feedback")
+            await expect(errorMessageMaxLengthInputLastName).toHaveText("Last name has to be from 2 to 20 characters long")
+            await expect(inputLastName).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
 
-        // Negative: check Spaces Last Name
-        await inputLastName.fill('Ivanna D')
-        await inputLastName.blur()
-        const errorMessageSpacesInputLastName = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageSpacesInputLastName).toContain("Last name is invalid")
+        await test.step('Negative: check Spaces Last Name', async () => {
+            await inputLastName.fill('Ivanna D')
+            await inputLastName.blur()
+            const errorMessageSpacesInputLastName = popup.locator(".invalid-feedback")
+            await expect(errorMessageSpacesInputLastName).toHaveText("Last name is invalid")
+            await expect(inputLastName).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
 
-        // Negative: check Latin letters Last Name
-        await inputLastName.fill('Дубенська')
-        await inputLastName.blur()
-        const errorMessageLatinLettersInputLastName = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageLatinLettersInputLastName).toContain("Last name is invalid")
+        await test.step('Negative: check Latin letters Last Name', async () => {
+            await inputLastName.fill('Дубенська')
+            await inputLastName.blur()
+            const errorMessageLatinLettersInputLastName = popup.locator(".invalid-feedback")
+            await expect(errorMessageLatinLettersInputLastName).toHaveText("Last name is invalid")
+            await expect(inputLastName).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
 
-        // Negative: check Special Symbols Last Name
-        await inputLastName.fill('!@#$%^&*()_')
-        await inputLastName.blur()
-        const errorMessageSpecialSymbolsInputLastName = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageSpecialSymbolsInputLastName).toContain("Last name is invalid")
+        await test.step('Negative: check Special Symbols Last Name', async () => {
+            await inputLastName.fill('!@#$%^&*()_')
+            await inputLastName.blur()
+            const errorMessageSpecialSymbolsInputLastName = popup.locator(".invalid-feedback")
+            await expect(errorMessageSpecialSymbolsInputLastName).toHaveText("Last name is invalid")
+            await expect(inputLastName).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
 
-        // Positive: check trim Last Name BUG HERE
+        // await test.step('Positive: check trim Last Name', async () => {
         // await inputLastName.fill(' Dubenska ', 'For this input should be implemented trim')
     })
     test ('Sign Up with INVALID data for Email input', async ({page})=>{
         const popup = page.locator('app-signup-modal')
         const inputEmail = popup.locator('#signupEmail')     
 
-        // Negative: check required Email 
-        await inputEmail.click()
-        await inputEmail.blur()
-        const errorMessageRequiredInputEmail = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageRequiredInputEmail).toContain("Email required")
+        await test.step('Negative: check required Email', async () => {  
+            await inputEmail.focus()
+            await inputEmail.blur()
+            const errorMessageRequiredInputEmail = popup.locator(".invalid-feedback")
+            await expect(errorMessageRequiredInputEmail).toHaveText("Email required")
+            await expect(inputEmail).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
 
-        // Negative: check invalid type, without @
-        await inputEmail.fill('testing.idubgmail.com')
-        await inputEmail.blur()
-        const errorMessageSpacesInputEmail = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageSpacesInputEmail).toContain("Email is incorrect")
+        await test.step('Negative: check invalid type, without @', async () => {
+            await inputEmail.fill('testing.idubgmail.com')
+            await inputEmail.blur()
+            const errorMessageSpacesInputEmail =  popup.locator(".invalid-feedback")
+            await expect(errorMessageSpacesInputEmail).toHaveText("Email is incorrect")
+            await expect(inputEmail).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
 
-        // Negative: check invalid type, without .com
-        await inputEmail.fill('testing.idub@gmail')
-        await inputEmail.blur()
-        const errorMessageLatinLettersInputEmail = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageLatinLettersInputEmail).toContain("Email is incorrect")
+        await test.step('Negative: check invalid type, without domen', async () => {
+            await inputEmail.fill('testing.idub@gmail')
+            await inputEmail.blur()
+            const errorMessageLatinLettersInputEmail = popup.locator(".invalid-feedback")
+            await expect(errorMessageLatinLettersInputEmail).toHaveText("Email is incorrect")
+            await expect(inputEmail).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
 
-        // Negative: check Special Symbols
-        await inputEmail.fill('!@#$%^&*()_')
-        await inputEmail.blur()
-        const errorMessageSpecialSymbolsInputEmail = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageSpecialSymbolsInputEmail).toContain("Email is incorrect")
+        await test.step('Negative: check Special Symbols', async () => {
+            await inputEmail.fill('!@#$%^&*()_')
+            await inputEmail.blur()
+            const errorMessageSpecialSymbolsInputEmail = popup.locator(".invalid-feedback")
+            await expect(errorMessageSpecialSymbolsInputEmail).toHaveText("Email is incorrect")
+            await expect(inputEmail).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
     })
     test ('Sign Up with INVALID data for Password input', async ({page})=>{
         const popup = page.locator('app-signup-modal') 
         const inputPassword = popup.locator('#signupPassword')     
 
-        // Negative: check required Password
-        await inputPassword.click()
-        await inputPassword.blur()
-        const errorMessageRequiredInputPassword = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageRequiredInputPassword).toContain("Password required")
+        await test.step('Negative: check required Password', async () => {
+            await inputPassword.focus()
+            await inputPassword.blur()
+            const errorMessageRequiredInputPassword = popup.locator(".invalid-feedback")
+            await expect(errorMessageRequiredInputPassword).toHaveText("Password required")
+            await expect(inputPassword).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
 
-        // Negative: check Min length 
-        await inputPassword.fill('123wW!')
-        await inputPassword.blur()
-        const errorMessageMinLengthInputPassword = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageMinLengthInputPassword).toContain("Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter")
+        await test.step('Negative: check Min length ', async () => { 
+            await inputPassword.fill('123wW!')
+            await inputPassword.blur()
+            const errorMessageMinLengthInputPassword = popup.locator(".invalid-feedback")
+            await expect(errorMessageMinLengthInputPassword).toHaveText("Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter")
+            await expect(inputPassword).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
 
-        // Negative: check Max length 
-        await inputPassword.fill('12345678901122wW!')
-        await inputPassword.blur()
-        const errorMessageMaxLengthInputPassword = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageMaxLengthInputPassword).toContain("Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter")
+        await test.step('Negative: check Max length ', async () => { 
+            await inputPassword.fill('12345678901122wW!')
+            await inputPassword.blur()
+            const errorMessageMaxLengthInputPassword = popup.locator(".invalid-feedback")
+            await expect(errorMessageMaxLengthInputPassword).toHaveText("Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter")
+            await expect(inputPassword).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
+
+        await test.step('Negative: check without integer', async () => { 
+            await inputPassword.fill('Qqwerty!!')
+            await inputPassword.blur()
+            const errorMessageIntegerInputPassword = popup.locator(".invalid-feedback")
+            await expect(errorMessageIntegerInputPassword).toHaveText("Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter")
+            await expect(inputPassword).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
         
-        // Negative: check without integer
-        await inputPassword.fill('Qqwerty!!')
-        await inputPassword.blur()
-        const errorMessageIntegerInputPassword = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageIntegerInputPassword).toContain("Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter")
- 
-        // Negative: check without uppercase letter
-        await inputPassword.fill('qqwerty1!')
-        await inputPassword.blur()
-        const errorMessageUppercaseInputPassword = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageUppercaseInputPassword).toContain("Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter")
+        await test.step('Negative: check without uppercase letter', async () => {
+            await inputPassword.fill('qqwerty1!')
+            await inputPassword.blur()
+            const errorMessageUppercaseInputPassword = popup.locator(".invalid-feedback")
+            await expect(errorMessageUppercaseInputPassword).toHaveText("Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter")
+            await expect(inputPassword).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
 
-        // Negative: check without lowercase letter
-        await inputPassword.fill('QWERTYY2!')
-        await inputPassword.blur()
-        const errorMessageLowercaseInputPassword = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageLowercaseInputPassword).toContain("Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter")
+        await test.step('Negative: check without lowercase letter', async () => {
+            await inputPassword.fill('QWERTYY2!')
+            await inputPassword.blur()
+            const errorMessageLowercaseInputPassword = popup.locator(".invalid-feedback")
+            await expect(errorMessageLowercaseInputPassword).toHaveText("Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter")
+            await expect(inputPassword).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
 
-        // Negative: check Special Symbols only
-        await inputPassword.fill('!@#$%^&*()_')
-        await inputPassword.blur()
-        const errorMessageSpecialSymbolsInputPassword = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageSpecialSymbolsInputPassword).toContain("Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter")
+        await test.step('Negative: check Special Symbols only', async () => {
+            await inputPassword.fill('!@#$%^&*()_')
+            await inputPassword.blur()
+            const errorMessageSpecialSymbolsInputPassword = popup.locator(".invalid-feedback")
+            await expect(errorMessageSpecialSymbolsInputPassword).toHaveText("Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter")
+            await expect(inputPassword).toHaveCSS("border-color", "rgb(220, 53, 69)")    
+    })
     })
     test ('Sign Up with INVALID data for Repeat Password input', async ({page})=>{
         const popup = page.locator('app-signup-modal')    
@@ -233,54 +281,68 @@ test.describe("Check validation for fields", ()=>{
         await inputPassword.fill('12345qwerrtyY!')
         await inputPassword.blur()
 
-        // Negative: check required Repeat Password
-        await inputRepeatPassword.click()
-        await inputRepeatPassword.blur()
-        const errorMessageRequiredInputRepeatPassword = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageRequiredInputRepeatPassword).toContain("Re-enter password required")
+        await test.step('Negative: check required Repeat Password', async () => { 
+            await inputRepeatPassword.focus()
+            await inputRepeatPassword.blur()
+            const errorMessageRequiredInputRepeatPassword = await popup.locator(".invalid-feedback")
+            await expect(errorMessageRequiredInputRepeatPassword).toHaveText("Re-enter password required")
+            await expect(inputRepeatPassword).toHaveCSS("border-color", "rgb(220, 53, 69)") 
+         })
 
-        // Negative: check Min length 
-        await inputRepeatPassword.fill('123wW!')
-        await inputRepeatPassword.blur()
-        const errorMessageMinLengthInputRepeatPassword = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageMinLengthInputRepeatPassword).toContain("Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter")
+        await test.step('Negative: check Min length ', async () => {
+            await inputRepeatPassword.fill('123wW!')
+            await inputRepeatPassword.blur()
+            const errorMessageMinLengthInputRepeatPassword = popup.locator(".invalid-feedback")
+            await expect(errorMessageMinLengthInputRepeatPassword).toHaveText("Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter")
+            await expect(inputRepeatPassword).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
 
-        // Negative: check Max length 
-        await inputRepeatPassword.fill('12345678901122wW!')
-        await inputRepeatPassword.blur()
-        const errorMessageMaxLengthInputRepeatPassword = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageMaxLengthInputRepeatPassword).toContain("Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter")
-        
-        // Negative: check without integer
-        await inputRepeatPassword.fill('Qqwerty!!')
-        await inputRepeatPassword.blur()
-        const errorMessageIntegerInputRepeatPassword = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageIntegerInputRepeatPassword).toContain("Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter")
- 
-        // Negative: check without uppercase letter
-        await inputRepeatPassword.fill('qqwerty1!')
-        await inputRepeatPassword.blur()
-        const errorMessageUppercaseInputRepeatPassword = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageUppercaseInputRepeatPassword).toContain("Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter")
+        await test.step('Negative: check Max length ', async () => { 
+            await inputRepeatPassword.fill('12345678901122wW!')
+            await inputRepeatPassword.blur()
+            const errorMessageMaxLengthInputRepeatPassword = popup.locator(".invalid-feedback")
+            await expect(errorMessageMaxLengthInputRepeatPassword).toHaveText("Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter")
+            await expect(inputRepeatPassword).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
 
-        // Negative: check without lowercase letter
-        await inputRepeatPassword.fill('QWERTYY2!')
-        await inputRepeatPassword.blur()
-        const errorMessageLowercaseInputRepeatPassword = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageLowercaseInputRepeatPassword).toContain("Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter")
+        await test.step('Negative: check without integer', async () => { 
+            await inputRepeatPassword.fill('Qqwerty!!')
+            await inputRepeatPassword.blur()
+            const errorMessageIntegerInputRepeatPassword = popup.locator(".invalid-feedback")
+            await expect(errorMessageIntegerInputRepeatPassword).toHaveText("Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter")
+            await expect(inputRepeatPassword).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
 
-        // Negative: check Special Symbols only
-        await inputRepeatPassword.fill('!@#$%^&*()_')
-        await inputRepeatPassword.blur()
-        const errorMessageSpecialSymbolsInputRepeatPassword = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageSpecialSymbolsInputRepeatPassword).toContain("Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter")
-        
-        // Negative: check not matched passwords
-        await inputRepeatPassword.fill('12345qwerrtyY!2')
-        await inputRepeatPassword.blur()
-        const errorMessageNotMachInputRepeatPassword = await popup.locator(".invalid-feedback").textContent()
-        await expect(errorMessageNotMachInputRepeatPassword).toContain("Passwords do not match")
+        await test.step('Negative: check without uppercase letter', async () =>{ 
+            await inputRepeatPassword.fill('qqwerty1!')
+            await inputRepeatPassword.blur()
+            const errorMessageUppercaseInputRepeatPassword = popup.locator(".invalid-feedback")
+            await expect(errorMessageUppercaseInputRepeatPassword).toHaveText("Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter")
+            await expect(inputRepeatPassword).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
 
+        await test.step('Negative: check without lowercase letter', async () => { 
+            await inputRepeatPassword.fill('QWERTYY2!')
+            await inputRepeatPassword.blur()
+            const errorMessageLowercaseInputRepeatPassword = popup.locator(".invalid-feedback")
+            await expect(errorMessageLowercaseInputRepeatPassword).toHaveText("Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter")
+            await expect(inputRepeatPassword).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
+        await test.step('Negative: check Special Symbols only', async () => { 
+            await inputRepeatPassword.fill('!@#$%^&*()_')
+            await inputRepeatPassword.blur()
+            const errorMessageSpecialSymbolsInputRepeatPassword = popup.locator(".invalid-feedback")
+            await expect(errorMessageSpecialSymbolsInputRepeatPassword).toHaveText("Password has to be from 8 to 15 characters long and contain at least one integer, one capital, and one small letter")
+            await expect(inputRepeatPassword).toHaveCSS("border-color", "rgb(220, 53, 69)")    
+        })
+
+        await test.step('Negative: check not matched passwords', async () => { 
+            await inputRepeatPassword.fill('12345qwerrtyY!2')
+            await inputRepeatPassword.blur()
+            const errorMessageNotMachInputRepeatPassword = popup.locator(".invalid-feedback")
+            await expect(errorMessageNotMachInputRepeatPassword).toHaveText("Passwords do not match")
+            await expect(inputRepeatPassword).toHaveCSS("border-color", "rgb(220, 53, 69)")
+        })
     })
 
 })
