@@ -1,0 +1,1 @@
+export const USER_IVANNA_STORAGE_STATE_PATH = './state/ivanna-state.json'
