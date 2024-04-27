@@ -8,7 +8,7 @@ export const test = base.extend({
         const welcomePage = new WelcomePage(page)
         await use(welcomePage)
     },
-    garagePage: async ({browser}, use)=>{
+    userGaragePage: async ({browser}, use)=>{
         // await welcomePage.navigate() // WITHOUT SETUP
         // const signInPopup = await welcomePage.openSignInPopUp()
         // await signInPopup.inputEmail.fill('aqa-testing.idub@gmail.com')

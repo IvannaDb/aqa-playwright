@@ -4,13 +4,13 @@ import {test, expect} from '../../src/fixtures/myFixtures'
 
 test.describe('Garage (fixtures)', ()=> {
     let popup
-    test('"Add Car" button should be active', async ({ garagePage }) => {
-        await expect(garagePage.addCarrButton).toBeVisible();
+    test('"Add Car" button should be active', async ({ userGaragePage }) => {
+        await expect(userGaragePage.addCarrButton).toBeVisible();
     })
-    test.only ('Create new Car', async ({garagePage}) => {
-        await expect(garagePage.addCarrButton).toBeVisible()
+    test.only ('Create new Car', async ({userGaragePage}) => {
+        await expect(userGaragePage.addCarrButton).toBeVisible()
 
-        popup = await garagePage.openCreateCarPopUp()
+        popup = await userGaragePage.openCreateCarPopUp()
         const brand = 'Ford'
         const model = 'Mondeo'
 
