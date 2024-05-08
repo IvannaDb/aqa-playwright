@@ -1,5 +1,4 @@
 import {test, expect} from "@playwright/test";
-import SideBar from "../../src/components/SideBar";
 import { USERS } from "../../src/data/users"
 import SettingsPage from "../../src/pageObject/SettingsPage/SettingsPage";
 import { RemoveAccountPopup } from "../../src/pageObject/SettingsPage/components/removeAccountPopup";

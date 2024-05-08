@@ -8,7 +8,15 @@ export const test = base.extend({
         const welcomePage = new WelcomePage(page)
         await use(welcomePage)
     },
-    userGaragePage: async ({browser}, use)=>{
+    page: async({browser}, use) =>{
+        const ctx = await browser.newContext({ // WITH SETUP
+            storageState: USER_IVANNA_STORAGE_STATE_PATH
+        })
+        const page = await ctx.newPage()
+        await use(page)
+        await ctx.close()
+    },
+    userGaragePage: async ({page}, use)=>{
         // await welcomePage.navigate() // WITHOUT SETUP
         // const signInPopup = await welcomePage.openSignInPopUp()
         // await signInPopup.inputEmail.fill('aqa-testing.idub@gmail.com')
@@ -18,10 +26,6 @@ export const test = base.extend({
 
         // await expect(page).toHaveURL(/garage/)
 
-        const ctx = await browser.newContext({ // WITH SETUP
-            storageState: USER_IVANNA_STORAGE_STATE_PATH
-        })
-        const page = await ctx.newPage()
 
         const garagePage = new GaragePage(page) // redirect to needed page
         await garagePage.navigate() // redirect to needed page

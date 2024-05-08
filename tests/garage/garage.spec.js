@@ -7,7 +7,7 @@ test.describe('Garage (fixtures)', ()=> {
     test('"Add Car" button should be active', async ({ userGaragePage }) => {
         await expect(userGaragePage.addCarrButton).toBeVisible();
     })
-    test.only ('Create new Car', async ({userGaragePage}) => {
+    test ('Create new Car', async ({userGaragePage}) => {
         await expect(userGaragePage.addCarrButton).toBeVisible()
 
         popup = await userGaragePage.openCreateCarPopUp()
