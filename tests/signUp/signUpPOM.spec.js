@@ -5,7 +5,7 @@ import SettingsPage from "../../src/pageObject/SettingsPage/SettingsPage";
 import { RemoveAccountPopup } from "../../src/pageObject/SettingsPage/components/removeAccountPopup";
 import WelcomePage from "../../src/pageObject/WelcomePage/WelcomePage"
 
-test.describe.only('SignUpPom', ()=> {
+test.describe('SignUpPom', ()=> {
     let popup
 
     test.describe ('Positive flow', ()=>{
@@ -25,8 +25,6 @@ test.describe.only('SignUpPom', ()=> {
         await expect(page, "User should be redirected to garage page").toHaveURL(/garage/)
     })
     test.afterEach(async({page})=>{
-            const sidebar = new SideBar(page);
-            await sidebar.openSettings();
             const settingsPage = new SettingsPage(page);
             await settingsPage.navigate();
             popup = await settingsPage.openRemoveAccPopUp();
