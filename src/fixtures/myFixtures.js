@@ -1,4 +1,4 @@
-import {expect as baseExpect, test as base} from "@playwright/test";
+import {expect as baseExpect, test as base, request as baseRequest} from "@playwright/test";
 import WelcomePage from '../../src/pageObject/WelcomePage/WelcomePage'
 import GaragePage from '../../src/pageObject/GaragePage/GaragePage'
 import { USER_IVANNA_STORAGE_STATE_PATH } from "../constants";
@@ -7,6 +7,14 @@ export const test = base.extend({
     welcomePage: async({page}, use)=>{
         const welcomePage = new WelcomePage(page)
         await use(welcomePage)
+    },
+    request: async({}, use) =>{
+        const req = await request.newContext({
+            storageState: USER_IVANNA_STORAGE_STATE_PATH
+        })
+        await use(req)
+
+        await req.dispose()
     },
     page: async({browser}, use) =>{
         const ctx = await browser.newContext({ // WITH SETUP
@@ -33,3 +41,5 @@ export const test = base.extend({
     }
 })
 export const expect = baseExpect
+
+export const request = baseRequest
